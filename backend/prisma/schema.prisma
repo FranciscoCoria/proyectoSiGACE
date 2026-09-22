@@ -1,0 +1,123 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Rol {
+  DIRECTORA
+  ECONOMA
+  CELADORA
+}
+
+enum TipoBalance {
+  COPA_DE_LECHE
+  COMEDOR_COMUN
+  COMEDOR_DIETA_ESPECIAL
+}
+
+enum EstadoPlan {
+  BORRADOR
+  ENVIADO
+  APROBADO
+  CON_OBSERVACIONES
+}
+
+model Usuario {
+  id          Int      @id @default(autoincrement())
+  nombre      String   @db.VarChar(100)
+  apellido    String   @db.VarChar(100)
+  usuario     String   @unique @db.VarChar(50)
+  password    String   @db.VarChar(255)
+  rol         Rol
+
+  balances    BalanceDiario[]
+  planes      PlanMensual[]
+  asistencias Asistencia[]
+}
+
+model Alumno {
+  id       Int     @id @default(autoincrement())
+  nombre   String  @db.VarChar(100)
+  apellido String  @db.VarChar(100)
+  dieta    String?
+
+  registros RegistroAsistencia[]
+}
+
+model Asistencia {
+  id        Int      @id @default(autoincrement())
+  fecha     DateTime @db.Date
+  usuarioId Int
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
+
+  registros RegistroAsistencia[]
+}
+
+model RegistroAsistencia {
+  asistenciaId Int
+  alumnoId     Int
+  presente     Boolean
+
+  asistencia Asistencia @relation(fields: [asistenciaId], references: [id])
+  alumno     Alumno     @relation(fields: [alumnoId], references: [id])
+
+  @@id([asistenciaId, alumnoId])
+}
+
+model BalanceDiario {
+  id                  Int         @id @default(autoincrement())
+  fecha               DateTime    @db.Date
+  tipo                TipoBalance
+  cantidadComensales  Int
+  total               Decimal     @db.Decimal(10, 2)
+  costoPorRacion      Decimal     @db.Decimal(10, 2)
+  usuarioId           Int
+  usuario             Usuario     @relation(fields: [usuarioId], references: [id])
+
+  lineas LineaBalance[]
+}
+
+model LineaBalance {
+  id                Int           @id @default(autoincrement())
+  nombreIngrediente String        @db.VarChar(100)
+  pesoPorRacion     Decimal       @db.Decimal(10, 2)
+  cantidadUsada     Decimal       @db.Decimal(10, 2)
+  precioUnitario    Decimal       @db.Decimal(10, 2)
+  subtotal          Decimal       @db.Decimal(10, 2)
+  balanceId         Int
+  balance           BalanceDiario @relation(fields: [balanceId], references: [id])
+}
+
+model PlanMensual {
+  id            Int        @id @default(autoincrement())
+  mes           DateTime   @db.Date
+  estado        EstadoPlan
+  obsDirectora  String?
+  usuarioId     Int
+  usuario       Usuario    @relation(fields: [usuarioId], references: [id])
+
+  semanas PlanSemanal[]
+}
+
+model PlanSemanal {
+  id          Int         @id @default(autoincrement())
+  numSemana   Int
+  obsEconoma  String?
+  planId      Int
+  plan        PlanMensual @relation(fields: [planId], references: [id])
+
+  dias PlanDiario[]
+}
+
+model PlanDiario {
+  id         Int         @id @default(autoincrement())
+  numDia     Int
+  desayuno   String?
+  almuerzo   String?
+  semanaId   Int
+  semana     PlanSemanal @relation(fields: [semanaId], references: [id])
+}
