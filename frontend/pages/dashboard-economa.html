@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SiGACE - Panel Directora</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <div id="contenido">
+    <h1>Hola, <span id="nombreUsuario"></span></h1>
+    <div><p>Dashboard economa</p></div>
+    <button onclick="cerrarSesion()">Cerrar sesión</button>
+  </div>
+
+  <script>
+    const usuario = JSON.parse(localStorage.getItem('usuario'));
+    
+    if (!usuario || usuario.rol !== 'ECONOMA') {
+      window.location.href = '../index.html';
+    }
+
+    document.getElementById('nombreUsuario').textContent = usuario.nombre;
+
+    function cerrarSesion() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('usuario');
+      window.location.href = '../index.html';
+    }
+  </script>
+</body>
+</html>
