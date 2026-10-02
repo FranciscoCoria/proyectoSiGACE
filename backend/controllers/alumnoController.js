@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const listarAlumnos = async (req, res) => {
+const listarAlumnos = async (req, res) => {     //busca todos los alumnos en la tabla Alumno ordenados por apellido y los devuelve como JSON.
   const alumnos = await prisma.alumno.findMany({
     orderBy: { apellido: 'asc' }
   });
