@@ -21,9 +21,19 @@ const obtenerAsistencia = async (req, res) => {
     return res.json({ existe: false, alumnos });
   }
 
-  res.json({ existe: true, asistencia });
-};
+  const todosLosAlumnos = await prisma.alumno.findMany({
+    orderBy: { apellido: 'asc' }
+  });
 
+  const alumnosConRegistro = asistencia.registros.map(r => r.alumnoId);
+  const alumnosSinRegistro = todosLosAlumnos.filter(a => !alumnosConRegistro.includes(a.id));
+
+  res.json({ 
+    existe: true, 
+    asistencia,
+    alumnosSinRegistro
+  });
+};
 const registrarAsistencia = async (req, res) => {
   const { fecha, registros } = req.body;
   const usuarioId = req.usuario.id;

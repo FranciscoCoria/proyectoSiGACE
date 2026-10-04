@@ -18,48 +18,88 @@
 
   <div class="container">
 
-    <div class="section-header">
-      <h2>Gestión de alumnos</h2>
-      <button class="btn-primary" onclick="toggleFormulario(true)">+ Nuevo alumno</button>
+    <div class="tabs">
+      <button class="tab active" onclick="mostrarTab('asistencia')">Asistencia</button>
+      <button class="tab" onclick="mostrarTab('alumnos')">Gestión de alumnos</button>
     </div>
 
-    <div id="formulario" style="display:none;">
-      <div class="card">
-        <h3 id="formTitulo">Nuevo alumno</h3>
-        <input type="hidden" id="alumnoId">
-        <form id="alumnoForm">
-          <div class="form-group">
-            <label>Nombre</label>
-            <input type="text" id="nombre" required>
+    <!-- TAB ASISTENCIA -->
+    <div id="tab-asistencia">
+      <div class="section-header">
+        <h2>Asistencia diaria</h2>
+          <div class="fecha-selector">
+            <label>Fecha:</label>
+            <input type="date" id="fecha">
+            <button onclick="cargarAsistencia(document.getElementById('fecha').value)" class="btn-secundario">↺ Actualizar</button>
           </div>
-          <div class="form-group">
-            <label>Apellido</label>
-            <input type="text" id="apellido" required>
-          </div>
-          <div class="form-group">
-            <label>Dieta especial</label>
-            <input type="text" id="dieta" placeholder="Dejá vacío si no tiene">
-          </div>
-          <div id="errorForm" class="error-msg"></div>
-          <div class="form-actions">
-            <button type="submit" class="btn-primary">Guardar</button>
-            <button type="button" onclick="toggleFormulario(false)">Cancelar</button>
-          </div>
-        </form>
+      </div>
+
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>Alumno</th>
+            <th>Dieta especial</th>
+            <th>Presente</th>
+          </tr>
+        </thead>
+        <tbody id="tablaAsistencia">
+        </tbody>
+      </table>
+
+      <div style="margin-top: 16px;">
+        <button id="btnGuardar" class="btn-primary" onclick="guardarAsistencia()" style="width: auto; padding: 10px 24px;">
+          Guardar asistencia
+        </button>
       </div>
     </div>
 
-    <table class="tabla">
-      <thead>
-        <tr>
-          <th>Alumno</th>
-          <th>Dieta especial</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody id="tablaAlumnos">
-      </tbody>
-    </table>
+    <!-- TAB ALUMNOS -->
+    <div id="tab-alumnos" style="display:none;">
+      <div class="section-header">
+        <h2>Gestión de alumnos</h2>
+        <button class="btn-primary btn-nuevo" onclick="toggleFormulario(true)">
+  + Nuevo alumno
+</button>
+      </div>
+
+      <div id="formulario" style="display:none;">
+        <div class="card">
+          <h3 id="formTitulo">Nuevo alumno</h3>
+          <input type="hidden" id="alumnoId">
+          <form id="alumnoForm">
+            <div class="form-group">
+              <label>Nombre</label>
+              <input type="text" id="nombre" required>
+            </div>
+            <div class="form-group">
+              <label>Apellido</label>
+              <input type="text" id="apellido" required>
+            </div>
+            <div class="form-group">
+              <label>Dieta especial</label>
+              <input type="text" id="dieta" placeholder="Dejá vacío si no tiene">
+            </div>
+            <div id="errorForm" class="error-msg"></div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">Guardar</button>
+              <button type="button" onclick="toggleFormulario(false)">Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>Alumno</th>
+            <th>Dieta especial</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tablaAlumnos">
+        </tbody>
+      </table>
+    </div>
 
   </div>
 
@@ -75,7 +115,17 @@
       localStorage.removeItem('usuario');
       window.location.href = '../index.html';
     }
+
+    function mostrarTab(tab) {
+      document.getElementById('tab-asistencia').style.display = tab === 'asistencia' ? 'block' : 'none';
+      document.getElementById('tab-alumnos').style.display = tab === 'alumnos' ? 'block' : 'none';
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+
+      if (tab === 'alumnos') cargarAlumnos();
+    }
   </script>
+  <script src="../js/asistencia.js"></script>
   <script src="../js/alumnos.js"></script>
 
 </body>

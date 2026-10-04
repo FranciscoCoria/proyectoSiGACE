@@ -1,16 +1,3 @@
-const API = 'http://localhost:3000/api';
-
-function getToken() {
-  return localStorage.getItem('token');
-}
-
-function getHeaders() {
-  return {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${getToken()}`
-  };
-}
-
 async function cargarAlumnos() {
   const response = await fetch(`${API}/alumnos`, {
     headers: getHeaders()

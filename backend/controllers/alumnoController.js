@@ -47,6 +47,10 @@ const eliminarAlumno = async (req, res) => {
     return res.status(404).json({ error: 'Alumno no encontrado.' });
   }
 
+  await prisma.registroAsistencia.deleteMany({
+    where: { alumnoId: parseInt(id) }
+  });
+
   await prisma.alumno.delete({ where: { id: parseInt(id) } });
   res.json({ mensaje: 'Alumno eliminado correctamente.' });
 };

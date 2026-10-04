@@ -7,7 +7,7 @@
 body {
   font-family: Arial, sans-serif;
   background-color: #5a1f2b; 
-  color: #3d3d3d; /*1-este color tiene sentido tenerlo?*/
+  color: white; /*1-este color tiene sentido tenerlo?*/
 }
 
 /* LOGIN */
@@ -142,6 +142,11 @@ body {
   background-color: #5f1f2c;
 }
 
+.btn-nuevo {
+  width: auto;
+  padding: 9px 18px;
+  font-size: 0.9rem;
+}
 
 /* MENSAJES DE ERROR */
 
@@ -207,6 +212,7 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  padding-top: 8px;
 }
 
 .section-header h2 {
@@ -328,4 +334,87 @@ select:focus {
   font-size: 0.9rem;
   font-weight: bold;
   margin-bottom: 20px;
+}
+
+/*Asistencias*/
+
+/* TABS */
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 0;
+  padding-left: 8px;
+  border-bottom: 2px solid #7b2938;
+}
+
+.tab {
+  padding: 11px 22px;
+  border: none;
+  border-radius: 8px 8px 0 0;
+  background-color: #7b2938;
+  color: white;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: bold;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.tab:hover {
+  background-color: #8f3a4a;
+}
+
+.tab.active {
+  background-color: #fffaf8;
+  color: #6b1f2b;
+}
+
+/* FECHA SELECTOR */
+/* Ajuste para el selector de fecha en la cabecera */
+
+.fecha-selector label {
+  color: #fff8f6; /* Texto blanco para que resalte sobre el fondo bordó */
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.fecha-selector input {
+  padding: 7px 10px;
+  border: 1px solid #c8b5b7;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  background-color: #fffdfc;
+  color: #3d3d3d;
+  outline: none;
+}
+
+.fecha-selector input:focus {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25);
+}
+
+/*BOTON ACTUALIZAR*/
+
+.btn-secundario {
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid #e8d5d7;
+  color: #fff8f6;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.btn-secundario:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: #ffffff;
+}
+
+.btn-secundario:active {
+  background: rgba(255, 255, 255, 0.3);
 }
