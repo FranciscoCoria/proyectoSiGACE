@@ -7,6 +7,7 @@ const authRoutes = require('./routes/authRoutes');
 const usuarioRoutes = require('./routes/usuarioRoutes');
 const alumnoRoutes = require('./routes/alumnoRoutes');
 const asistenciaRoutes = require('./routes/asistenciaRoutes');
+const balanceRoutes = require('./routes/balanceRoutes');
 
 const app = express();
 const PORT = 3000;
@@ -20,6 +21,7 @@ app.use('/api/auth', authRoutes); // conecta las rutas de autenticación.
 app.use('/api/usuarios', usuarioRoutes);
 app.use('/api/alumnos', alumnoRoutes);
 app.use('/api/asistencia', asistenciaRoutes);
+app.use('/api/balances', balanceRoutes);
 
                                   
 app.listen(PORT, () => {
