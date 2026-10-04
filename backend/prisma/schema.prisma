@@ -77,7 +77,7 @@ model BalanceDiario {
   costoPorRacion      Decimal     @db.Decimal(10, 2)
   usuarioId           Int
   usuario             Usuario     @relation(fields: [usuarioId], references: [id])
-
+  menu        String?
   lineas LineaBalance[]
 }
 

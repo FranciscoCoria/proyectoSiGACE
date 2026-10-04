@@ -3,30 +3,175 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SiGACE - Panel Directora</title>
+  <title>SiGACE - Panel Ecónoma</title>
   <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-  <div id="contenido">
-    <h1>Hola, <span id="nombreUsuario"></span></h1>
-    <div><p>Dashboard economa</p></div>
-    <button onclick="cerrarSesion()">Cerrar sesión</button>
+
+  <nav class="navbar">
+    <span class="navbar-title">SiGACE</span>
+    <div class="navbar-user">
+      <span id="nombreUsuario"></span>
+      <button onclick="cerrarSesion()">Cerrar sesión</button>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <div class="tabs">
+      <button class="tab active" onclick="mostrarTab('economato', event)">Economato</button>
+      <button class="tab" onclick="mostrarTab('planMensual', event)">Plan mensual</button>
+    </div>
+
+    <!-- TAB ECONOMATO -->
+    <div id="tab-economato">
+
+      <div class="section-header">
+        <h2>Balance diario</h2>
+        <button class="btn-primary" onclick="toggleFormBalance(true)">+ Nuevo balance</button>
+      </div>
+
+      <!-- FORMULARIO NUEVO BALANCE -->
+      <div id="seccionFormBalance" style="display:none;">
+        <div class="card">
+          <h3>Nuevo balance</h3>
+          <form id="formBalance">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Fecha</label>
+                <input type="date" id="fechaBalance" required>
+              </div>
+              <div class="form-group">
+                <label>Tipo</label>
+                <select id="tipoBalance" required>
+                  <option value="">Seleccioná el tipo</option>
+                  <option value="COPA_DE_LECHE">Copa de Leche</option>
+                  <option value="COMEDOR_COMUN">Comedor Común</option>
+                  <option value="COMEDOR_DIETA_ESPECIAL">Comedor Dieta Especial</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Alumnos</label>
+                <input type="number" id="cantAlumnos" min="0" value="0" onchange="actualizarTotales(); cargarTablaLineas()">
+              </div>
+              <div class="form-group">
+                <label>Otras escuelas</label>
+                <input type="number" id="cantOtrasEscuelas" min="0" value="0" onchange="actualizarTotales(); cargarTablaLineas()">
+              </div>
+              <div class="form-group">
+                <label>Total comensales</label>
+                <input type="text" id="totalComensales" value="0" disabled>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Menú del día</label>
+              <input type="text" id="menuBalance" placeholder="Ej: Guiso de lentejas - Fruta">
+            </div>
+            <h4 style="margin: 16px 0 12px;">Ingredientes</h4>
+
+            <div class="form-row ingrediente-row">
+              <div class="form-group">
+                <label>Ingrediente</label>
+                <input type="text" id="nombreIngrediente" placeholder="Nombre">
+              </div>
+              
+              <div class="form-group">
+                <label>Cantidad/ración</label>
+                <input type="number" id="pesoPorRacion" step="0.001" min="0" placeholder="0.000">
+              </div>
+              <div class="form-group">
+                <label>Precio unitario ($)</label>
+                <input type="number" id="precioUnitario" step="0.01" min="0" placeholder="0.00">
+              </div>
+              <div class="form-group" style="display:flex; align-items:flex-end;">
+                <button type="button" class="btn-primary" onclick="agregarLinea()">+ Agregar</button>
+              </div>
+            </div>
+            <div id="errorIngrediente" class="error-msg"></div>
+            <table class="tabla" style="margin-bottom:16px;">
+              <thead>
+                <tr>
+                  <th>Ingrediente</th>
+                  <th>Cantidad/ración (kg, lt, un)</th>
+                  <th>Cant. usada</th>
+                  <th>Precio unit.</th>
+                  <th>Subtotal</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="tablaLineas"></tbody>
+            </table>
+            
+            <div class="balance-totales">
+              <p>Total general: <strong id="totalGeneral">$0</strong></p>
+              <p>Costo por ración: <strong id="costoPorRacion">$0</strong></p>
+            </div>
+
+            <div class="form-actions" style="margin-top:16px;">
+              <button type="button" class="btn-primary" onclick="guardarBalance()">Guardar balance</button>
+              <button type="button" onclick="toggleFormBalance(false)">Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- COLUMNAS DE BALANCES -->
+      <div class="columnas-balance">
+        <div class="columna-balance">
+          <h3>Copa de Leche</h3>
+          <div id="listaCopaLeche"></div>
+        </div>
+        <div class="columna-balance">
+          <h3>Comedor Común</h3>
+          <div id="listaComedor"></div>
+        </div>
+        <div class="columna-balance">
+          <h3>Dieta Especial</h3>
+          <div id="listaDieta"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB PLAN MENSUAL -->
+    <div id="tab-planMensual" style="display:none;">
+      <h2>Plan mensual</h2>
+      <p>Próximamente...</p>
+    </div>
+
+  </div>
+
+  <!-- MODAL VER BALANCE -->
+  <div id="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:100; align-items:center; justify-content:center;">
+    <div class="card" style="max-width:700px; width:90%; max-height:80vh; overflow-y:auto;">
+      <div id="modalContenido"></div>
+    </div>
   </div>
 
   <script>
     const usuario = JSON.parse(localStorage.getItem('usuario'));
-    
     if (!usuario || usuario.rol !== 'ECONOMA') {
       window.location.href = '../index.html';
     }
-
-    document.getElementById('nombreUsuario').textContent = usuario.nombre;
+    document.getElementById('nombreUsuario').textContent = usuario.nombre + ' ' + usuario.apellido;
 
     function cerrarSesion() {
       localStorage.removeItem('token');
       localStorage.removeItem('usuario');
       window.location.href = '../index.html';
     }
+
+    function mostrarTab(tab, event) {
+      document.getElementById('tab-economato').style.display = tab === 'economato' ? 'block' : 'none';
+      document.getElementById('tab-planMensual').style.display = tab === 'planMensual' ? 'block' : 'none';
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+    }
   </script>
+  <script src="../js/balance.js"></script>
+
 </body>
 </html>

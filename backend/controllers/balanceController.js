@@ -29,7 +29,7 @@ const obtenerBalance = async (req, res) => {
 };
 
 const crearBalance = async (req, res) => {
-  const { fecha, tipo, cantidadAlumnos, cantidadOtrasEscuelas, lineas } = req.body;
+  const { fecha, tipo, cantidadAlumnos, cantidadOtrasEscuelas, lineas, menu } = req.body;
   const usuarioId = req.usuario.id;
 
   if (!fecha || !tipo || !lineas || lineas.length === 0) {
@@ -70,6 +70,7 @@ const crearBalance = async (req, res) => {
       total: parseFloat(total.toFixed(2)),
       costoPorRacion: parseFloat(costoPorRacion.toFixed(2)),
       usuarioId,
+      menu: menu || null,
       lineas: {
         createMany: { data: lineasProcesadas }
       }
@@ -82,7 +83,7 @@ const crearBalance = async (req, res) => {
 
 const modificarBalance = async (req, res) => {
   const { id } = req.params;
-  const { cantidadAlumnos, cantidadOtrasEscuelas, lineas } = req.body;
+  const { cantidadAlumnos, cantidadOtrasEscuelas, lineas, menu } = req.body;
 
   const existe = await prisma.balanceDiario.findUnique({ where: { id: parseInt(id) } });
   if (!existe) {
@@ -115,6 +116,7 @@ const modificarBalance = async (req, res) => {
       cantidadComensales,
       total: parseFloat(total.toFixed(2)),
       costoPorRacion: parseFloat(costoPorRacion.toFixed(2)),
+      menu: menu || null,
       lineas: {
         createMany: { data: lineasProcesadas }
       }

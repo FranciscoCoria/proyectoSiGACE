@@ -7,7 +7,7 @@
 body {
   font-family: Arial, sans-serif;
   background-color: #5a1f2b; 
-  color: white; /*1-este color tiene sentido tenerlo?*/
+  color: #3d3d3d; 
 }
 
 /* LOGIN */
@@ -215,9 +215,12 @@ body {
   padding-top: 8px;
 }
 
-.section-header h2 {
-  color: #fff8f6;
+.section-header h2,
+.navbar,
+.tab {
+  color: white;
 }
+
 
 
 /* CARD */
@@ -417,4 +420,221 @@ select:focus {
 
 .btn-secundario:active {
   background: rgba(255, 255, 255, 0.3);
+}
+
+
+
+
+
+/* COLUMNAS BALANCE */
+.columnas-balance {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.columna-balance {
+  background: white;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 10px rgba(45,15,20,0.12);
+}
+
+.columna-balance h3 {
+  color: #6b1f2b;
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e8d5d7;
+}
+
+.balance-item {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 8px;
+  border: 1px solid #e8d5d7;
+  transition: background 0.2s;
+}
+
+.balance-item:hover {
+  background: #f7eeee;
+}
+
+.balance-fecha {
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: #49383a;
+}
+
+.balance-total {
+  font-size: 0.85rem;
+  color: #6b1f2b;
+}
+
+.balance-racion {
+  font-size: 0.8rem;
+  color: #74696a;
+}
+
+.sin-registros {
+  color: #74696a;
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 16px 0;
+}
+
+/* FORM ROW */
+.form-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.form-row .form-group {
+  flex: 1;
+  min-width: 150px;
+}
+
+/* BALANCE TOTALES */
+.balance-totales {
+  background: #f7eeee;
+  padding: 12px 16px;
+  border-radius: 4px;
+  display: flex;
+  gap: 24px;
+}
+
+.balance-totales p {
+  font-size: 0.95rem;
+  color: #49383a;
+}
+
+/* MODAL DE BALANCE */
+
+#modal .card {
+  padding: 28px;
+}
+
+#modalContenido h3 {
+  margin-bottom: 20px;
+  color: #6b1f2b;
+}
+
+#modalContenido > p {
+  margin-bottom: 12px;
+  color: #49383a;
+}
+
+#modalContenido .tabla {
+  margin-top: 24px;
+  margin-bottom: 20px;
+}
+
+#modalContenido .balance-totales {
+  background: #f7eeee;
+  padding: 14px 18px;
+  border-radius: 6px;
+  display: flex;
+  gap: 32px;
+  margin-top: 20px;
+}
+
+#modalContenido .form-actions {
+  margin-top: 24px !important;
+}
+
+
+
+/*BALANCES MENU*/
+.balance-menu {
+  font-size: 0.8rem;
+  color: #74696a;
+  font-style: italic;
+  margin: 2px 0;
+}
+
+
+/* ACCIONES DEL MODAL */
+
+.modal-acciones {
+  margin-top: 24px;
+}
+
+/* Botones normales del modal */
+
+.modal-botones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn-eliminar,
+.btn-cerrar,
+.btn-cancelar {
+  padding: 9px 18px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+/* Eliminar */
+
+.btn-eliminar {
+  background-color: #b23a48;
+  color: white;
+  border: 1px solid #b23a48;
+}
+
+.btn-eliminar:hover {
+  background-color: #8f2e3a;
+}
+
+/* Cerrar */
+
+.btn-cerrar {
+  background-color: #756466;
+  color: white;
+  border: 1px solid #756466;
+}
+
+.btn-cerrar:hover {
+  background-color: #5d5052;
+}
+
+/* Confirmación */
+
+.confirmar-eliminacion {
+  display: none;
+  margin-top: 16px;
+  padding: 14px 16px;
+  background-color: #fdf1f1;
+  border: 1px solid #e8c5c8;
+  border-radius: 6px;
+}
+
+.confirmar-eliminacion p {
+  margin-bottom: 12px;
+  color: #8f2e3a;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.confirmar-botones {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-cancelar {
+  background-color: white;
+  color: #49383a;
+  border: 1px solid #c8b5b7;
+}
+
+.btn-cancelar:hover {
+  background-color: #f3eeee;
 }
