@@ -38,15 +38,14 @@ const crearPlan = async (req, res) => {
   }
 
   const mesDate = new Date(mes);
+  console.log('Mes recibido:', mes);
+  console.log('Mes parseado:', mesDate);
   const existente = await prisma.planMensual.findFirst({
     where: {
-      mes: {
-        gte: new Date(mesDate.getFullYear(), mesDate.getMonth(), 1),
-        lt: new Date(mesDate.getFullYear(), mesDate.getMonth() + 1, 1)
-      }
+      mes: new Date(mesDate.getFullYear(), mesDate.getUTCMonth(), 1)
     }
   });
-
+  
   if (existente) {
     return res.status(400).json({ error: 'Ya existe un plan para ese mes.' });
   }

@@ -137,10 +137,101 @@
     </div>
 
     <!-- TAB PLAN MENSUAL -->
-    <div id="tab-planMensual" style="display:none;">
+    <!-- TAB PLAN MENSUAL -->
+<div id="tab-planMensual" style="display:none;">
+
+  <!-- LISTA DE PLANES -->
+  <div id="seccionLista">
+    <div class="section-header">
       <h2>Plan mensual</h2>
-      <p>Próximamente...</p>
+      <button class="btn-primary btn-nuevo" onclick="mostrarFormNuevoPlan()">+ Nuevo plan</button>
     </div>
+
+    <!-- FORMULARIO NUEVO PLAN -->
+    <div id="formNuevoPlan" style="display:none;">
+      <div class="card">
+        <h3>Nuevo plan mensual</h3>
+        <div class="form-group">
+          <label>Mes y año</label>
+          <div class="form-row">
+  <div class="form-group">
+    <label>Mes</label>
+    <select id="mesPlanMes" onchange="generarGrillaCreacion()">
+      <option value="">Seleccioná el mes</option>
+      <option value="1">Enero</option>
+      <option value="2">Febrero</option>
+      <option value="3">Marzo</option>
+      <option value="4">Abril</option>
+      <option value="5">Mayo</option>
+      <option value="6">Junio</option>
+      <option value="7">Julio</option>
+      <option value="8">Agosto</option>
+      <option value="9">Septiembre</option>
+      <option value="10">Octubre</option>
+      <option value="11">Noviembre</option>
+      <option value="12">Diciembre</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label>Año</label>
+    <input type="number" id="mesPlanAnio" value="2026" min="2026" onchange="generarGrillaCreacion()">
+  </div>
+</div>
+        </div>
+        <div id="grillaCreacion"></div>
+        <div id="errorNuevoPlan" class="error-msg"></div>
+        <div class="form-actions">
+          <button class="btn-primary" onclick="crearPlanNuevo()">Guardar borrador</button>
+          <button onclick="document.getElementById('formNuevoPlan').style.display='none'">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="listaPlanes"></div>
+  </div>
+
+  <!-- VISTA DE UN PLAN -->
+  <div id="seccionPlan" style="display:none;">
+    <div class="section-header">
+      <button onclick="volverLista()" style="background:none; border:none; color:#fff8f6; cursor:pointer; font-size:0.9rem;">← Volver</button>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <h2 id="tituloPlan"></h2>
+        <span id="estadoPlan"></span>
+      </div>
+    </div>
+
+    <div id="obsDirectora" class="obs-directora" style="display:none;">
+      <strong>Observación de la directora:</strong>
+      <p id="textoObsDirectora"></p>
+    </div>
+
+    <div id="errorPlan" class="error-msg"></div>
+
+    <div class="plan-acciones">
+      <button id="btnGuardarCambios" class="btn-primary btn-nuevo" onclick="guardarCambios()">Guardar cambios</button>
+      <button id="btnEnviar" class="btn-primary btn-nuevo" onclick="enviarPlan()">Enviar a directora</button>
+      <button id="btnEliminarPlan" class="btn-eliminar" onclick="eliminarPlan()">Eliminar</button>
+      <button id="btnAprobar" class="btn-primary btn-nuevo" onclick="aprobarPlan()" style="display:none;">Aprobar</button>
+      <button id="btnObservacion" class="btn-nuevo" onclick="mostrarFormObservacion()" style="display:none;">Registrar observación</button>
+    </div>
+
+    <div id="seccionObservacion" style="display:none;" class="card">
+      <h3>Registrar observación</h3>
+      <div class="form-group">
+        <label>Observación</label>
+        <textarea id="inputObservacion" rows="3" style="width:100%; padding:10px; border:1px solid #c8b5b7; border-radius:4px;"></textarea>
+      </div>
+      <div id="errorObs" class="error-msg"></div>
+      <div class="form-actions">
+        <button class="btn-primary" onclick="guardarObservacion()">Guardar</button>
+        <button onclick="document.getElementById('seccionObservacion').style.display='none'">Cancelar</button>
+      </div>
+    </div>
+
+    <div id="grillaPlan" class="grilla-plan"></div>
+  </div>
+
+</div>
 
   </div>
 
@@ -170,8 +261,16 @@
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       event.target.classList.add('active');
     }
+    function mostrarFormNuevoPlan() {
+      document.getElementById('formNuevoPlan').style.display = 'block';
+      document.getElementById('grillaCreacion').innerHTML = '';
+    }
+
+    
+    
   </script>
   <script src="../js/balance.js"></script>
+  <script src="../js/plan.js"></script>
 
 </body>
 </html>
