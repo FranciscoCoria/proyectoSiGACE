@@ -95,6 +95,7 @@ const actualizarPlan = async (req, res) => {
   const planActualizado = await prisma.planMensual.update({
     where: { id: parseInt(id) },
     data: {
+      estado: 'BORRADOR',
       semanas: {
         create: semanas.map(s => ({
           numSemana: s.numSemana,

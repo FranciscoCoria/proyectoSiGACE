@@ -15,9 +15,15 @@
       <button onclick="cerrarSesion()">Cerrar sesión</button>
     </div>
   </nav>
-
+  
   <div class="container">
+    <div class="tabs">
+    <button class="tab active" onclick="mostrarTab('usuarios', event)">Gestión de usuarios</button>
+    <button class="tab" onclick="mostrarTab('planMensual', event)">Plan mensual</button>
+    </div>
+    
 
+    <div id="tab-usuarios">
     <div class="section-header">
       <h2>Gestión de usuarios</h2>
       <button class="btn-primary" onclick="toggleFormulario(true)">+ Nuevo usuario</button> <!-- hacemos click en el boton y activa el form -->
@@ -76,6 +82,53 @@
     </table>
 
   </div>
+  </div>
+
+  <div id="tab-planMensual" style="display:none;">
+  <div id="seccionLista">
+    <div class="section-header">
+      <h2>Plan mensual</h2>
+    </div>
+    <div id="listaPlanes"></div>
+  </div>
+
+  <div id="seccionPlan" style="display:none;">
+    <div class="section-header">
+      <button onclick="volverLista()" style="background:none; border:none; color:#fff8f6; cursor:pointer; font-size:0.9rem;">← Volver</button>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <h2 id="tituloPlan"></h2>
+        <span id="estadoPlan"></span>
+      </div>
+    </div>
+
+    <div id="obsDirectora" class="obs-directora" style="display:none;">
+      <strong>Observación de la directora:</strong>
+      <p id="textoObsDirectora"></p>
+    </div>
+
+    <div id="errorPlan" class="error-msg"></div>
+
+    <div class="plan-acciones">
+      <button id="btnAprobar" class="btn-primary btn-nuevo" onclick="aprobarPlan()">Aprobar</button>
+      <button id="btnObservacion" class="btn-nuevo" onclick="mostrarFormObservacion()">Registrar observación</button>
+    </div>
+
+    <div id="seccionObservacion" style="display:none;" class="card">
+      <h3>Registrar observación</h3>
+      <div class="form-group">
+        <label>Observación</label>
+        <textarea id="inputObservacion" rows="3" style="width:100%; padding:10px; border:1px solid #c8b5b7; border-radius:4px;"></textarea>
+      </div>
+      <div id="errorObs" class="error-msg"></div>
+      <div class="form-actions">
+        <button class="btn-primary" onclick="guardarObservacion()">Guardar</button>
+        <button onclick="document.getElementById('seccionObservacion').style.display='none'">Cancelar</button>
+      </div>
+    </div>
+
+    <div id="grillaPlan" class="grilla-plan"></div>
+  </div>
+</div>
 
   <script>
     const usuario = JSON.parse(localStorage.getItem('usuario'));
@@ -89,8 +142,17 @@
       localStorage.removeItem('usuario');
       window.location.href = '../index.html';
     }
+
+    function mostrarTab(tab, event) {
+  document.getElementById('tab-usuarios').style.display = tab === 'usuarios' ? 'block' : 'none';
+  document.getElementById('tab-planMensual').style.display = tab === 'planMensual' ? 'block' : 'none';
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  if (tab === 'planMensual') cargarPlanes();
+}
   </script>
   <script src="../js/usuarios.js"></script>
+  <script src="../js/plan.js"></script>
 
 </body>
 </html>

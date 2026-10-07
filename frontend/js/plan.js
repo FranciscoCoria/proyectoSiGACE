@@ -53,10 +53,17 @@ function mostrarPlan(plan) {
   const esEconoma = JSON.parse(localStorage.getItem('usuario')).rol === 'ECONOMA';
   const esDirectora = JSON.parse(localStorage.getItem('usuario')).rol === 'DIRECTORA';
 
-  document.getElementById('btnEnviar').style.display = esEconoma && plan.estado === 'BORRADOR' ? 'inline-block' : 'none';
-  document.getElementById('btnEliminarPlan').style.display = esEconoma && plan.estado !== 'APROBADO' ? 'inline-block' : 'none';
-  document.getElementById('btnAprobar').style.display = esDirectora && plan.estado === 'ENVIADO' ? 'inline-block' : 'none';
-  document.getElementById('btnObservacion').style.display = esDirectora && plan.estado === 'ENVIADO' ? 'inline-block' : 'none';
+  const btnEnviar = document.getElementById('btnEnviar');
+  const btnEliminarPlan = document.getElementById('btnEliminarPlan');
+  const btnAprobar = document.getElementById('btnAprobar');
+  const btnObservacion = document.getElementById('btnObservacion');
+  const btnGuardarCambios = document.getElementById('btnGuardarCambios');
+
+  if (btnEnviar) btnEnviar.style.display = esEconoma && (plan.estado === 'BORRADOR' || plan.estado === 'CON_OBSERVACIONES') ? 'inline-block' : 'none';
+  if (btnEliminarPlan) btnEliminarPlan.style.display = esEconoma && plan.estado !== 'APROBADO' ? 'inline-block' : 'none';
+  if (btnAprobar) btnAprobar.style.display = esDirectora && plan.estado === 'ENVIADO' ? 'inline-block' : 'none';
+  if (btnObservacion) btnObservacion.style.display = esDirectora && plan.estado === 'ENVIADO' ? 'inline-block' : 'none';
+  if (btnGuardarCambios) btnGuardarCambios.style.display = esEditable && esEconoma ? 'inline-block' : 'none';
 
   if (plan.obsDirectora) {
     document.getElementById('obsDirectora').style.display = 'block';
@@ -213,6 +220,7 @@ function volverLista() {
   document.getElementById('seccionLista').style.display = 'block';
   document.getElementById('seccionPlan').style.display = 'none';
   document.getElementById('seccionObservacion').style.display = 'none';
+  document.getElementById('errorPlan').textContent = '';
   cargarPlanes();
 }
 
