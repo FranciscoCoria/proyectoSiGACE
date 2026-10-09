@@ -29,7 +29,7 @@ const obtenerBalance = async (req, res) => {
 };
 
 const crearBalance = async (req, res) => {
-  const { fecha, tipo, cantidadAlumnos, cantidadOtrasEscuelas, lineas, menu } = req.body;
+  const { fecha, tipo, cantidadAlumnos, cantidadOtrasEscuelas, personalComedor, otros, lineas, menu } = req.body;
   const usuarioId = req.usuario.id;
 
   if (!fecha || !tipo || !lineas || lineas.length === 0) {
@@ -44,7 +44,7 @@ const crearBalance = async (req, res) => {
     return res.status(400).json({ error: 'Ya existe un balance de ese tipo para esa fecha.' });
   }
 
-  const cantidadComensales = (cantidadAlumnos || 0) + (cantidadOtrasEscuelas || 0);
+  const cantidadComensales = (cantidadAlumnos || 0) + (cantidadOtrasEscuelas || 0) + (personalComedor || 0) + (otros || 0);
 
   let total = 0;
   const lineasProcesadas = lineas.map(l => {
@@ -67,6 +67,10 @@ const crearBalance = async (req, res) => {
     data: {
       fecha: new Date(fecha),
       tipo,
+      cantidadAlumnos: cantidadAlumnos || 0,
+      cantidadOtrasEscuelas: cantidadOtrasEscuelas || 0,
+      personalComedor: personalComedor || 0,
+      otros: otros || 0,
       cantidadComensales,
       total: parseFloat(total.toFixed(2)),
       costoPorRacion: parseFloat(costoPorRacion.toFixed(2)),
