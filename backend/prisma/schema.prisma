@@ -79,6 +79,10 @@ model BalanceDiario {
   usuario             Usuario     @relation(fields: [usuarioId], references: [id])
   menu        String?
   lineas LineaBalance[]
+  cantidadAlumnos       Int       @default(0)
+  cantidadOtrasEscuelas Int       @default(0)
+  personalComedor       Int       @default(0)
+  otros                 Int       @default(0)
 }
 
 model LineaBalance {
@@ -88,6 +92,7 @@ model LineaBalance {
   cantidadUsada     Decimal       @db.Decimal(10, 2)
   precioUnitario    Decimal       @db.Decimal(10, 2)
   subtotal          Decimal       @db.Decimal(10, 2)
+  otrasAclaraciones String?
   balanceId         Int
   balance           BalanceDiario @relation(fields: [balanceId], references: [id])
 }

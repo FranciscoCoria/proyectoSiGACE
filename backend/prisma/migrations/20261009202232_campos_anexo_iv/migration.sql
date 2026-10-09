@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "BalanceDiario" ADD COLUMN     "cantidadAlumnos" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "cantidadOtrasEscuelas" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "otros" INTEGER NOT NULL DEFAULT 0,
+ADD COLUMN     "personalComedor" INTEGER NOT NULL DEFAULT 0;

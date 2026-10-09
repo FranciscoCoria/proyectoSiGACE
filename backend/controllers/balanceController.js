@@ -56,7 +56,8 @@ const crearBalance = async (req, res) => {
       pesoPorRacion: parseFloat(l.pesoPorRacion),
       cantidadUsada: parseFloat(cantidadUsada.toFixed(3)),
       precioUnitario: parseFloat(l.precioUnitario),
-      subtotal: parseFloat(subtotal.toFixed(2))
+      subtotal: parseFloat(subtotal.toFixed(2)),
+      otrasAclaraciones: l.otrasAclaraciones || null
     };
   });
 
@@ -102,7 +103,8 @@ const modificarBalance = async (req, res) => {
       pesoPorRacion: parseFloat(l.pesoPorRacion),
       cantidadUsada: parseFloat(cantidadUsada.toFixed(3)),
       precioUnitario: parseFloat(l.precioUnitario),
-      subtotal: parseFloat(subtotal.toFixed(2))
+      subtotal: parseFloat(subtotal.toFixed(2)),
+      otrasAclaraciones: l.otrasAclaraciones || null
     };
   });
 
