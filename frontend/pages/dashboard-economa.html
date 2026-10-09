@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SiGACE - Panel Ecónoma</title>
   <link rel="stylesheet" href="../css/styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 
@@ -192,13 +193,19 @@
 
   <!-- VISTA DE UN PLAN -->
   <div id="seccionPlan" style="display:none;">
-    <div class="section-header">
-      <button onclick="volverLista()" style="background:none; border:none; color:#fff8f6; cursor:pointer; font-size:0.9rem;">← Volver</button>
-      <div style="display:flex; align-items:center; gap:12px;">
+        <div class="section-header plan-header">
+      <button class="btn-nuevo" onclick="volverLista()">← Volver</button>
+
+      <div class="plan-titulo">
         <h2 id="tituloPlan"></h2>
         <span id="estadoPlan"></span>
       </div>
+
+      <button id="btnExportar" class="btn-primary btn-nuevo" onclick="exportarPlanPDF()">
+        Exportar PDF
+      </button>
     </div>
+    
 
     <div id="obsDirectora" class="obs-directora" style="display:none;">
       <strong>Observación de la directora:</strong>
@@ -213,6 +220,7 @@
       <button id="btnEliminarPlan" class="btn-eliminar" onclick="eliminarPlan()">Eliminar</button>
       <button id="btnAprobar" class="btn-primary btn-nuevo" onclick="aprobarPlan()" style="display:none;">Aprobar</button>
       <button id="btnObservacion" class="btn-nuevo" onclick="mostrarFormObservacion()" style="display:none;">Registrar observación</button>
+
     </div>
 
     <div id="seccionObservacion" style="display:none;" class="card">

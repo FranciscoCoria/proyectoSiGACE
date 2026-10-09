@@ -11,12 +11,16 @@ async function cargarPlanes() {
   const lista = document.getElementById('listaPlanes');
   lista.innerHTML = '';
 
-  if (planes.length === 0) {
-    lista.innerHTML = '<p class="sin-registros">No hay planes cargados.</p>';
-    return;
-  }
+  const usuario = JSON.parse(localStorage.getItem('usuario'));
+  const planesVisibles = usuario.rol === 'DIRECTORA' 
+  ? planes.filter(p => p.estado !== 'BORRADOR')
+  : planes;
 
-  planes.forEach(p => {
+    if (planesVisibles.length === 0) {
+    lista.innerHTML = '<p class="sin-registros">No hay planes disponibles.</p>';
+  return;
+}
+  planesVisibles.forEach(p => {
     const fecha = new Date(p.mes);
     const mes = MESES[fecha.getUTCMonth()];
     const anio = fecha.getUTCFullYear();
@@ -58,12 +62,14 @@ function mostrarPlan(plan) {
   const btnAprobar = document.getElementById('btnAprobar');
   const btnObservacion = document.getElementById('btnObservacion');
   const btnGuardarCambios = document.getElementById('btnGuardarCambios');
+  const btnExportar = document.getElementById('btnExportar');
 
   if (btnEnviar) btnEnviar.style.display = esEconoma && (plan.estado === 'BORRADOR' || plan.estado === 'CON_OBSERVACIONES') ? 'inline-block' : 'none';
   if (btnEliminarPlan) btnEliminarPlan.style.display = esEconoma && plan.estado !== 'APROBADO' ? 'inline-block' : 'none';
   if (btnAprobar) btnAprobar.style.display = esDirectora && plan.estado === 'ENVIADO' ? 'inline-block' : 'none';
   if (btnObservacion) btnObservacion.style.display = esDirectora && plan.estado === 'ENVIADO' ? 'inline-block' : 'none';
   if (btnGuardarCambios) btnGuardarCambios.style.display = esEditable && esEconoma ? 'inline-block' : 'none';
+  if (btnExportar) btnExportar.style.display = plan.estado === 'APROBADO' ? 'inline-block' : 'none';
 
   if (plan.obsDirectora) {
     document.getElementById('obsDirectora').style.display = 'block';
@@ -365,3 +371,559 @@ async function crearPlanNuevo() {
 document.addEventListener('DOMContentLoaded', () => {
   cargarPlanes();
 });
+
+
+function cargarImagen(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error(`No se pudo cargar la imagen: ${src}`));
+
+    img.src = src;
+  });
+}
+
+function escribirTextoAdaptado(doc, texto, x, y, ancho, alto, tamanoInicial = 7.5, tamanoMinimo = 5.5) {
+  let tamano = tamanoInicial;
+
+  while (tamano >= tamanoMinimo) {
+    doc.setFontSize(tamano);
+
+    const lineas = doc.splitTextToSize(texto, ancho);
+    const alturaLinea = tamano * 0.4;
+    const alturaTexto = lineas.length * alturaLinea;
+
+    if (alturaTexto <= alto) {
+      doc.text(lineas, x, y);
+      return;
+    }
+
+    tamano -= 0.5;
+  }
+
+  // Si incluso con el tamaño mínimo no entra,
+  // usamos el mínimo pero seguimos mostrando todo el texto.
+  doc.setFontSize(tamanoMinimo);
+
+  const lineas = doc.splitTextToSize(texto, ancho);
+  doc.text(lineas, x, y);
+}
+
+async function exportarPlanPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF('landscape', 'mm', 'a4');
+  const logo = await cargarImagen('../img/logo.png');
+
+  const fecha = new Date(planActual.mes);
+  const mes = MESES[fecha.getUTCMonth()];
+  const anio = fecha.getUTCFullYear();
+
+  const pageWidth = 297;
+  const pageHeight = 210;
+  const margin = 10;
+
+  // ============================================================
+  // COLORES
+  // ============================================================
+
+  const bordó = [107, 31, 43];
+  const bordóClaro = [123, 41, 56];
+  const fondoSuave = [250, 246, 245];
+  const borde = [210, 195, 197];
+  const texto = [61, 61, 61];
+  const gris = [110, 100, 102];
+
+  // ============================================================
+// ENCABEZADO
+// ============================================================
+
+let y = 11;
+
+// Logo
+if (logo && logo.complete && logo.naturalWidth > 0) {
+  try {
+    doc.addImage(
+      logo,
+      'PNG',
+      margin,
+      y - 3,
+      18,
+      18
+    );
+  } catch (error) {
+    console.log('No se pudo agregar el logo al PDF.');
+  }
+}
+
+// ------------------------------------------------------------
+// INFORMACIÓN DE LA ESCUELA
+// ------------------------------------------------------------
+
+doc.setTextColor(...texto);
+doc.setFont('helvetica', 'bold');
+doc.setFontSize(13);
+
+doc.text(
+  'Escuela N° 523 — Domingo F. Sarmiento',
+  margin + 23,
+  y + 4
+);
+
+doc.setFont('helvetica', 'normal');
+doc.setFontSize(8);
+doc.setTextColor(...gris);
+
+doc.text(
+  'Av. San Martín 384 - Gobernador Crespo [C.P. 3044]',
+  margin + 23,
+  y + 8
+);
+
+doc.text(
+  'Teléfono: 3498-480004 - Email: prim523_gobernadorcrespo@santafe.edu.ar',
+  margin + 23,
+  y + 11
+);
+
+// ------------------------------------------------------------
+// INFORMACIÓN DEL PLAN
+// ------------------------------------------------------------
+
+doc.setTextColor(...gris);
+doc.setFont('helvetica', 'normal');
+doc.setFontSize(9);
+
+doc.text(
+  'Plan mensual',
+  pageWidth - margin,
+  y + 2,
+  { align: 'right' }
+);
+
+doc.setTextColor(...bordó);
+doc.setFont('helvetica', 'bold');
+doc.setFontSize(18);
+
+doc.text(
+  `${mes} ${anio}`,
+  pageWidth - margin,
+  y + 10,
+  { align: 'right' }
+);
+
+// Línea separadora
+y += 21;
+
+doc.setDrawColor(...borde);
+doc.setLineWidth(0.5);
+
+doc.line(
+  margin,
+  y,
+  pageWidth - margin,
+  y
+);
+
+y += 6;
+
+  // ============================================================
+  // TABLA
+  // ============================================================
+
+  const colHeaders = [
+    'LUNES',
+    'MARTES',
+    'MIÉRCOLES',
+    'JUEVES',
+    'VIERNES',
+    'OBSERVACIONES'
+  ];
+
+  const colWidths = [45, 45, 45, 45, 45, 52];
+
+  const headerHeight = 9;
+
+  const cantidadSemanas = planActual.semanas.length;
+
+  /*
+   * Para 5 semanas usamos prácticamente todo el espacio
+   * disponible de la hoja.
+   */
+  const espacioEstado = planActual.obsDirectora ? 17 : 11;
+  const espacioPie = 12;
+
+  const espacioDisponible =
+    pageHeight -
+    y -
+    headerHeight -
+    espacioEstado -
+    espacioPie;
+
+  const rowHeight = Math.min(
+    30,
+    espacioDisponible / cantidadSemanas
+  );
+
+  // Tamaños según cantidad de semanas
+  const modoCompacto = cantidadSemanas >= 5;
+
+  const fontDia = modoCompacto ? 8 : 10;
+  const fontComida = modoCompacto ? 7 : 9;
+  const fontEtiqueta = modoCompacto ? 5.5 : 6.5;
+  const fontObservacion = modoCompacto ? 7 : 9;
+
+  // ============================================================
+  // HEADER DE TABLA
+  // ============================================================
+
+  let x = margin;
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(8);
+  doc.setTextColor(255, 255, 255);
+
+  colHeaders.forEach((header, i) => {
+    doc.setFillColor(...bordóClaro);
+
+    doc.rect(
+      x,
+      y,
+      colWidths[i],
+      headerHeight,
+      'F'
+    );
+
+    doc.text(
+      header,
+      x + colWidths[i] / 2,
+      y + 6,
+      { align: 'center' }
+    );
+
+    x += colWidths[i];
+  });
+
+  y += headerHeight;
+
+  // ============================================================
+  // SEMANAS
+  // ============================================================
+
+  planActual.semanas.forEach((semana, indiceSemana) => {
+    x = margin;
+
+    // ----------------------------------------------------------
+    // DÍAS
+    // ----------------------------------------------------------
+
+    for (let col = 0; col < 5; col++) {
+      const diaEnColumna = semana.dias.find(dia => {
+        const fechaDia = new Date(
+          anio,
+          fecha.getUTCMonth(),
+          dia.numDia
+        );
+
+        return fechaDia.getDay() === col + 1;
+      });
+
+      // Fondo alternado
+      if (indiceSemana % 2 === 0) {
+        doc.setFillColor(...fondoSuave);
+
+        doc.rect(
+          x,
+          y,
+          colWidths[col],
+          rowHeight,
+          'F'
+        );
+      }
+
+      // Borde
+      doc.setDrawColor(...borde);
+      doc.setLineWidth(0.3);
+
+      doc.rect(
+        x,
+        y,
+        colWidths[col],
+        rowHeight
+      );
+
+      if (diaEnColumna) {
+        // ======================================================
+        // DÍA
+        // ======================================================
+
+        doc.setTextColor(...bordó);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(fontDia);
+
+        doc.text(
+          `DÍA ${diaEnColumna.numDia}`,
+          x + 3,
+          y + 5
+        );
+
+        // ======================================================
+        // DESAYUNO
+        // ======================================================
+
+        doc.setTextColor(...gris);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(fontEtiqueta);
+
+        doc.text(
+          'DESAYUNO',
+          x + 3,
+          y + 9
+        );
+
+        doc.setTextColor(...texto);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(fontComida);
+
+        if (diaEnColumna.desayuno) {
+          const desayunoLines = doc.splitTextToSize(
+            diaEnColumna.desayuno,
+            colWidths[col] - 6
+          );
+
+          /*
+           * En 5 semanas dejamos solamente dos líneas.
+           * Si el texto es más largo, se prioriza que la
+           * información no invada el espacio del almuerzo.
+           */
+          const maxLineas = modoCompacto ? 2 : 3;
+
+          doc.text(
+            desayunoLines.slice(0, maxLineas),
+            x + 3,
+            y + 13
+          );
+        } else {
+          doc.setTextColor(...gris);
+
+          doc.text(
+            '—',
+            x + 3,
+            y + 13
+          );
+        }
+
+        // ======================================================
+        // ALMUERZO
+        // ======================================================
+
+        const posicionEtiquetaAlmuerzo =
+          modoCompacto ? y + rowHeight - 10 : y + 22;
+
+        const posicionTextoAlmuerzo =
+          modoCompacto ? y + rowHeight - 6 : y + 26;
+
+        doc.setTextColor(...gris);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(fontEtiqueta);
+
+        doc.text(
+          'ALMUERZO',
+          x + 3,
+          posicionEtiquetaAlmuerzo
+        );
+
+        doc.setTextColor(...texto);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(fontComida);
+
+        if (diaEnColumna.almuerzo) {
+          const almuerzoLines = doc.splitTextToSize(
+            diaEnColumna.almuerzo,
+            colWidths[col] - 6
+          );
+
+          const maxLineas = modoCompacto ? 2 : 3;
+
+          doc.text(
+            almuerzoLines.slice(0, maxLineas),
+            x + 3,
+            posicionTextoAlmuerzo
+          );
+        } else {
+          doc.setTextColor(...gris);
+
+          doc.text(
+            '—',
+            x + 3,
+            posicionTextoAlmuerzo
+          );
+        }
+      }
+
+      x += colWidths[col];
+    }
+
+    // ==========================================================
+    // OBSERVACIONES
+    // ==========================================================
+
+    if (indiceSemana % 2 === 0) {
+      doc.setFillColor(...fondoSuave);
+
+      doc.rect(
+        x,
+        y,
+        colWidths[5],
+        rowHeight,
+        'F'
+      );
+    }
+
+    doc.setDrawColor(...borde);
+
+    doc.rect(
+      x,
+      y,
+      colWidths[5],
+      rowHeight
+    );
+
+    // Semana
+    doc.setTextColor(...bordó);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(modoCompacto ? 7.5 : 8.5);
+
+    doc.text(
+      `SEMANA ${semana.numSemana}`,
+      x + 3,
+      y + 6
+    );
+
+    // Observación
+    if (semana.obsEconoma) {
+      doc.setTextColor(...texto);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(fontObservacion);
+
+      const obsLines = doc.splitTextToSize(
+        semana.obsEconoma,
+        colWidths[5] - 6
+      );
+
+      const maxLineas = modoCompacto ? 4 : 6;
+
+      doc.text(
+        obsLines.slice(0, maxLineas),
+        x + 3,
+        y + 11
+      );
+    } else {
+      doc.setTextColor(...gris);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7);
+
+      doc.text(
+        'Sin observaciones',
+        x + 3,
+        y + 11
+      );
+    }
+
+    y += rowHeight;
+  });
+
+  // ============================================================
+  // ESTADO
+  // ============================================================
+
+  y += 5;
+
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(8);
+  doc.setTextColor(...bordó);
+
+  doc.text(
+    'Estado:',
+    margin,
+    y
+  );
+
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...texto);
+
+  doc.text(
+    planActual.estado.replace(/_/g, ' '),
+    margin + 14,
+    y
+  );
+
+  // ============================================================
+  // OBSERVACIÓN DIRECTORA
+  // ============================================================
+
+  if (planActual.obsDirectora) {
+    y += 6;
+
+    const obsTexto =
+      `Observación de la directora: ${planActual.obsDirectora}`;
+
+    const obsLines = doc.splitTextToSize(
+      obsTexto,
+      pageWidth - margin * 2
+    );
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7.5);
+    doc.setTextColor(...gris);
+
+    doc.text(
+      obsLines,
+      margin,
+      y
+    );
+  }
+
+  // ============================================================
+  // PIE DE PÁGINA
+  // ============================================================
+
+  const totalPaginas = doc.internal.getNumberOfPages();
+
+  for (let pagina = 1; pagina <= totalPaginas; pagina++) {
+    doc.setPage(pagina);
+
+    doc.setDrawColor(...borde);
+    doc.setLineWidth(0.3);
+
+    doc.line(
+      margin,
+      pageHeight - 9,
+      pageWidth - margin,
+      pageHeight - 9
+    );
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(6.5);
+    doc.setTextColor(...gris);
+
+    doc.text(
+      'SiGACE — Sistema de Gestión Administrativa de Comedores Escolares',
+      margin,
+      pageHeight - 4
+    );
+
+    doc.text(
+      `Página ${pagina} de ${totalPaginas}`,
+      pageWidth - margin,
+      pageHeight - 4,
+      { align: 'right' }
+    );
+  }
+
+  // ============================================================
+  // GUARDAR
+  // ============================================================
+
+  doc.save(`plan-mensual-${mes}-${anio}.pdf`);
+}

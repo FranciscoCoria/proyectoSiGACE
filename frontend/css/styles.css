@@ -702,6 +702,7 @@ select:focus {
   grid-template-columns: repeat(5, 1fr) 0.8fr;
   gap: 4px;
   margin-bottom: 4px;
+  
 }
 
 .grilla-col-header {
@@ -784,4 +785,72 @@ select:focus {
 .grilla-celda-vacia {
   background: #f0f0f0;
   border-radius: 4px;
+}
+
+/* LISTA DE PLANES MENSUALES */
+#seccionLista {
+  max-width: 900px;
+  margin: 0 auto;
+} 
+
+/* PLAN MENSUAL ABIERTO */
+#seccionPlan {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+
+/* CABECERA DEL PLAN MENSUAL */
+
+.plan-header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+}
+
+.plan-header > button:first-child {
+  justify-self: start;
+  width: auto;
+  background-color: #7b2938;
+  color: white;
+  border: none;
+}
+
+.plan-header > button:first-child:hover {
+  background-color: #5f1f2c;
+}
+
+.plan-titulo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.plan-header > button:last-child {
+  justify-self: end;
+}
+
+
+
+/*TEMP*/
+  .plan-header {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+
+
+.directora-plan-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+.directora-plan-header .plan-titulo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: flex-end;
 }
