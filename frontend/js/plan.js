@@ -127,11 +127,6 @@ function mostrarPlan(plan) {
     grilla.appendChild(fila);
   });
 
-  if (esEditable && esEconoma) {
-    document.getElementById('btnGuardarCambios').style.display = 'inline-block';
-  } else {
-    document.getElementById('btnGuardarCambios').style.display = 'none';
-  }
 }
 
 function recolectarDatos() {
@@ -173,6 +168,20 @@ async function guardarCambios() {
 }
 
 async function enviarPlan() {
+  // Guardar cambios primero
+  const semanas = recolectarDatos();
+  const responseSave = await fetch(`${API}/planes/${planActual.id}`, {
+    method: 'PUT',
+    headers: getHeaders(),
+    body: JSON.stringify({ semanas })
+  });
+
+  if (!responseSave.ok) {
+    document.getElementById('errorPlan').textContent = 'Error al guardar los cambios.';
+    return;
+  }
+
+  // Después enviar
   const response = await fetch(`${API}/planes/${planActual.id}/enviar`, {
     method: 'POST',
     headers: getHeaders()

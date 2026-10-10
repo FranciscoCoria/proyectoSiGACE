@@ -100,16 +100,18 @@ function editarUsuario(id, nombre, apellido, usuario, rol) {
 
 // Eliminar usuario
 async function eliminarUsuario(id) {
-  if (!confirm('¿Estás seguro de que querés eliminar este usuario?')) return;
-
-  const response = await fetch(`${API}/usuarios/${id}`, {
-    method: 'DELETE',
-    headers: getHeaders()
-  });
-
-  if (response.ok) {
-    cargarUsuarios();    //vuelve a cargar la tabla para que desaparezca el usuario eliminado.
-  }
+  const confirmDiv = document.getElementById('confirmEliminarUsuario');
+  confirmDiv.style.display = 'block';
+  document.getElementById('btnConfirmarElimUsuario').onclick = async () => {
+    const response = await fetch(`${API}/usuarios/${id}`, {
+      method: 'DELETE',
+      headers: getHeaders()
+    });
+    if (response.ok) {
+      confirmDiv.style.display = 'none';
+      cargarUsuarios();
+    }
+  };
 }
 
 // Inicializar

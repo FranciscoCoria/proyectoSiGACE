@@ -32,6 +32,9 @@ async function cargarAsistencia(fecha) {
   tbody.innerHTML = '';
 
   const esFechaFutura = new Date(fecha) > new Date(getFechaHoy());
+  
+  const mensajeEl = document.getElementById('mensajeAsistencia');
+  if (mensajeEl) mensajeEl.textContent = '';
 
   if (data.existe) {
     const esModoLectura = fecha !== getFechaHoy();
@@ -90,6 +93,13 @@ async function cargarAsistencia(fecha) {
 
     btnGuardar.style.display = 'block';
   }
+
+  document.querySelectorAll('#tablaAsistencia input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      const msg = document.getElementById('mensajeAsistencia');
+      if (msg) msg.textContent = '';
+    });
+  });
 }
 
 async function guardarAsistencia() {
@@ -110,12 +120,13 @@ async function guardarAsistencia() {
   const data = await response.json();
 
   if (!response.ok) {
-    alert(data.error);
-    return;
-  }
+  document.getElementById('mensajeAsistencia').textContent = data.error;
+  return;
+}
 
-  alert(data.mensaje);
-  cargarAsistencia(fecha);
+  await cargarAsistencia(fecha);
+  document.getElementById('mensajeAsistencia').style.color = '#155724';
+  document.getElementById('mensajeAsistencia').textContent = 'Asistencia guardada correctamente.';
 }
 
 document.addEventListener('DOMContentLoaded', () => {

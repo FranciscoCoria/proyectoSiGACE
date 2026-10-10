@@ -24,48 +24,48 @@
     
 
     <div id="tab-usuarios">
-    <div class="section-header">
-      <h2>Gestión de usuarios</h2>
-      <button class="btn-primary" onclick="toggleFormulario(true)">+ Nuevo usuario</button> <!-- hacemos click en el boton y activa el form -->
-    </div>
-
-    <div id="formulario" style="display:none;">
-      <div class="card">
-        <h3 id="formTitulo">Nuevo usuario</h3>
-        <input type="hidden" id="usuarioId">
-        <form id="usuarioForm">
-          <div class="form-group">
-            <label>Nombre</label>
-            <input type="text" id="nombre" required>
-          </div>
-          <div class="form-group">
-            <label>Apellido</label>
-            <input type="text" id="apellido" required>
-          </div>
-          <div class="form-group">
-            <label>Usuario</label>
-            <input type="text" id="usuario" required>
-          </div>
-          <div class="form-group">
-            <label>Contraseña</label>
-            <input type="password" id="password">
-          </div>
-          <div class="form-group">
-            <label>Rol</label>
-            <select id="rol" required>
-              <option value="">Selecciona un rol</option>
-              <option value="DIRECTORA">Directora</option>
-              <option value="ECONOMA">Ecónoma</option>
-              <option value="CELADORA">Celadora</option>
-            </select>
-          </div>
-          <div id="errorForm" class="error-msg"></div>
-          <div class="form-actions">
-            <button type="submit" class="btn-primary">Guardar</button>
-            <button type="button" onclick="toggleFormulario(false)">Cancelar</button>
-          </div>
-        </form>
+      <div class="section-header">
+        <h2>Gestión de usuarios</h2>
+        <button class="btn-primary" onclick="toggleFormulario(true)">+ Nuevo usuario</button> <!-- hacemos click en el boton y activa el form -->
       </div>
+
+      <div id="formulario" style="display:none;">
+        <div class="card">
+          <h3 id="formTitulo">Nuevo usuario</h3>
+          <input type="hidden" id="usuarioId">
+          <form id="usuarioForm">
+            <div class="form-group">
+              <label>Nombre</label>
+              <input type="text" id="nombre" required>
+            </div>
+            <div class="form-group">
+              <label>Apellido</label>
+              <input type="text" id="apellido" required>
+            </div>
+            <div class="form-group">
+              <label>Usuario</label>
+              <input type="text" id="usuario" required>
+            </div>
+            <div class="form-group">
+              <label>Contraseña</label>
+              <input type="password" id="password">
+            </div>
+            <div class="form-group">
+              <label>Rol</label>
+              <select id="rol" required>
+                <option value="">Selecciona un rol</option>
+                <option value="DIRECTORA">Directora</option>
+                <option value="ECONOMA">Ecónoma</option>
+                <option value="CELADORA">Celadora</option>
+              </select>
+            </div>
+            <div id="errorForm" class="error-msg"></div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">Guardar</button>
+              <button type="button" onclick="toggleFormulario(false)">Cancelar</button>
+            </div>
+          </form>
+        </div>
     </div>
 
     <table class="tabla">
@@ -80,6 +80,14 @@
       <tbody id="tablaUsuarios">
       </tbody>
     </table>
+
+    <div id="confirmEliminarUsuario" class="confirmar-eliminacion" style="display:none;">
+      <p>¿Estás seguro de que querés eliminar este usuario?</p>
+      <div class="confirmar-botones">
+        <button class="btn-eliminar" id="btnConfirmarElimUsuario">Sí, eliminar</button>
+        <button class="btn-cancelar" onclick="document.getElementById('confirmEliminarUsuario').style.display='none'">Cancelar</button>
+      </div>
+    </div>
 
   </div>
   </div>

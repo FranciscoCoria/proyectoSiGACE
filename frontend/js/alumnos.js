@@ -81,16 +81,18 @@ function editarAlumno(id, nombre, apellido, dieta) {
 }
 
 async function eliminarAlumno(id) {
-  if (!confirm('¿Estás seguro de que querés eliminar este alumno?')) return;
-
-  const response = await fetch(`${API}/alumnos/${id}`, {
-    method: 'DELETE',
-    headers: getHeaders()
-  });
-
-  if (response.ok) {
-    cargarAlumnos();
-  }
+  const confirmDiv = document.getElementById('confirmEliminarAlumno');
+  confirmDiv.style.display = 'block';
+  document.getElementById('btnConfirmarElimAlumno').onclick = async () => {
+    const response = await fetch(`${API}/alumnos/${id}`, {
+      method: 'DELETE',
+      headers: getHeaders()
+    });
+    if (response.ok) {
+      confirmDiv.style.display = 'none';
+      cargarAlumnos();
+    }
+  };
 }
 
 document.addEventListener('DOMContentLoaded', () => {

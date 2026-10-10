@@ -689,6 +689,7 @@ select:focus {
   border-radius: 6px;
   padding: 12px 16px;
   margin-bottom: 16px;
+  margin-top: 8px;
   color: #721c24;
 }
 
@@ -853,4 +854,11 @@ select:focus {
   align-items: center;
   gap: 12px;
   justify-content: flex-end;
+}
+
+
+.mensaje-exito {
+  color: #155724;
+  font-size: 0.85rem;
+  margin-bottom: 12px;
 }

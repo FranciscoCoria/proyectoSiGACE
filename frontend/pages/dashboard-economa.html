@@ -63,8 +63,12 @@
                 <input type="number" id="cantOtrasEscuelas" min="0" value="0" onchange="actualizarTotales(); cargarTablaLineas()">
               </div>
               <div class="form-group">
-                <label>Total comensales</label>
-                <input type="text" id="totalComensales" value="0" disabled>
+                <label>Personal comedor</label>
+                <input type="number" id="cantPersonal" min="0" value="0" onchange="actualizarTotales(); cargarTablaLineas()">
+              </div>
+              <div class="form-group">
+                <label>Otros</label>
+                <input type="number" id="cantOtros" min="0" value="0" onchange="actualizarTotales(); cargarTablaLineas()">
               </div>
             </div>
             <div class="form-group">
@@ -87,6 +91,10 @@
                 <label>Precio unitario ($)</label>
                 <input type="number" id="precioUnitario" step="0.01" min="0" placeholder="0.00">
               </div>
+              <div class="form-group">
+                <label>Aclaraciones</label>
+                <input type="text" id="otrasAclaraciones" placeholder="Opcional">
+              </div>
               <div class="form-group" style="display:flex; align-items:flex-end;">
                 <button type="button" class="btn-primary" onclick="agregarLinea()">+ Agregar</button>
               </div>
@@ -100,6 +108,7 @@
                   <th>Cant. usada</th>
                   <th>Precio unit.</th>
                   <th>Subtotal</th>
+                  <th>Aclaraciones</th>
                   <th></th>
                 </tr>
               </thead>
@@ -110,7 +119,8 @@
               <p>Total general: <strong id="totalGeneral">$0</strong></p>
               <p>Costo por ración: <strong id="costoPorRacion">$0</strong></p>
             </div>
-
+            
+            <div id="errorBalance" class="error-msg"></div>
             <div class="form-actions" style="margin-top:16px;">
               <button type="button" class="btn-primary" onclick="guardarBalance()">Guardar balance</button>
               <button type="button" onclick="toggleFormBalance(false)">Cancelar</button>

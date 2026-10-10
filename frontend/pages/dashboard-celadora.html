@@ -33,7 +33,7 @@
             <button onclick="cargarAsistencia(document.getElementById('fecha').value)" class="btn-secundario">↺ Actualizar</button>
           </div>
       </div>
-
+      
       <table class="tabla">
         <thead>
           <tr>
@@ -46,6 +46,7 @@
         </tbody>
       </table>
 
+      <div id="mensajeAsistencia" class="error-msg"></div>
       <div style="margin-top: 16px;">
         <button id="btnGuardar" class="btn-primary" onclick="guardarAsistencia()" style="width: auto; padding: 10px 24px;">
           Guardar asistencia
@@ -58,8 +59,8 @@
       <div class="section-header">
         <h2>Gestión de alumnos</h2>
         <button class="btn-primary btn-nuevo" onclick="toggleFormulario(true)">
-  + Nuevo alumno
-</button>
+          + Nuevo alumno
+        </button>
       </div>
 
       <div id="formulario" style="display:none;">
@@ -101,6 +102,13 @@
       </table>
     </div>
 
+    <div id="confirmEliminarAlumno" class="confirmar-eliminacion" style="display:none;">
+      <p>¿Estás seguro de que querés eliminar este alumno?</p>
+      <div class="confirmar-botones">
+        <button class="btn-eliminar" id="btnConfirmarElimAlumno">Sí, eliminar</button>
+        <button class="btn-cancelar" onclick="document.getElementById('confirmEliminarAlumno').style.display='none'">Cancelar</button>
+      </div>
+    </div>
   </div>
 
   <script>
