@@ -150,8 +150,11 @@ body {
 
 /* MENSAJES DE ERROR */
 
+.error-msg:empty {
+  display: none;
+}
 .error-msg {
-  color: #c62828;
+  color: white;
   font-size: 0.85rem;
   margin-bottom: 12px;
   min-height: 20px;
@@ -684,13 +687,13 @@ select:focus {
 }
 
 .obs-directora {
-  background: #f8d7da;
-  border: 1px solid #f5c6cb;
+  background: #d7f3f8;
+  border: 1px solid #c6dcf5;
   border-radius: 6px;
   padding: 12px 16px;
   margin-bottom: 16px;
   margin-top: 8px;
-  color: #721c24;
+  color: #1c3072;
 }
 
 /* GRILLA PLAN */
@@ -841,8 +844,6 @@ select:focus {
     padding-bottom: 0 !important;
 }
 
-
-
 .directora-plan-header {
   display: grid;
   grid-template-columns: 1fr auto;
@@ -861,4 +862,19 @@ select:focus {
   color: #155724;
   font-size: 0.85rem;
   margin-bottom: 12px;
+}
+
+.mensaje-advertencia {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  color: #856404;
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.login-card .error-msg {
+  color: #c62828;
 }

@@ -81,6 +81,11 @@ const modificarUsuario = async (req, res) => {
 const eliminarUsuario = async (req, res) => {
   const { id } = req.params;
 
+
+  if (parseInt(id) === req.usuario.id) {
+    return res.status(400).json({ error: 'No podés eliminar tu propio usuario.' });
+  }
+  
   const existe = await prisma.usuario.findUnique({ where: { id: parseInt(id) } });
   if (!existe) {
     return res.status(404).json({ error: 'Usuario no encontrado.' });

@@ -102,13 +102,7 @@
       </table>
     </div>
 
-    <div id="confirmEliminarAlumno" class="confirmar-eliminacion" style="display:none;">
-      <p>¿Estás seguro de que querés eliminar este alumno?</p>
-      <div class="confirmar-botones">
-        <button class="btn-eliminar" id="btnConfirmarElimAlumno">Sí, eliminar</button>
-        <button class="btn-cancelar" onclick="document.getElementById('confirmEliminarAlumno').style.display='none'">Cancelar</button>
-      </div>
-    </div>
+    
   </div>
 
   <script>
@@ -133,6 +127,18 @@
       if (tab === 'alumnos') cargarAlumnos();
     }
   </script>
+
+  <div id="modalConfirm" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:200; align-items:center; justify-content:center;">
+    <div class="card" style="max-width:400px; width:90%; text-align:center;">
+      <p id="modalConfirmTexto" style="margin-bottom:16px; font-size:0.95rem; color:#3d3d3d;"></p>
+      <div class="confirmar-botones" style="justify-content:center;">
+        <button class="btn-eliminar" id="modalConfirmSi">Sí, eliminar</button>
+        <button class="btn-cancelar" onclick="cerrarModalConfirm()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/utils.js"></script>
   <script src="../js/asistencia.js"></script>
   <script src="../js/alumnos.js"></script>
 

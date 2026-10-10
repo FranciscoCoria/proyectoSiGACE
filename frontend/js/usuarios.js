@@ -17,6 +17,9 @@ async function cargarUsuarios() {            //La función es async porque va a 
     headers: getHeaders()                       //hace un GET http://localhost:3000/api/usuarios
   });
 
+  const errorDiv = document.getElementById('errorUsuarios');
+  if (errorDiv) errorDiv.style.display = 'none';  
+  
   if (response.status === 401) {
     window.location.href = '../index.html';
     return;
@@ -100,18 +103,21 @@ function editarUsuario(id, nombre, apellido, usuario, rol) {
 
 // Eliminar usuario
 async function eliminarUsuario(id) {
-  const confirmDiv = document.getElementById('confirmEliminarUsuario');
-  confirmDiv.style.display = 'block';
-  document.getElementById('btnConfirmarElimUsuario').onclick = async () => {
+  mostrarConfirm('¿Estás seguro de que querés eliminar este usuario?', async () => {
     const response = await fetch(`${API}/usuarios/${id}`, {
       method: 'DELETE',
       headers: getHeaders()
     });
-    if (response.ok) {
-      confirmDiv.style.display = 'none';
-      cargarUsuarios();
-    }
-  };
+    const data = await response.json();
+    if (!response.ok) {
+      const errorDiv = document.getElementById('errorUsuarios');
+      errorDiv.textContent = data.error;
+      errorDiv.style.display = 'block';
+      return;
+}
+document.getElementById('errorUsuarios').style.display = 'none';
+cargarUsuarios();
+  });
 }
 
 // Inicializar
