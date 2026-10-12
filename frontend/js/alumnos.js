@@ -37,6 +37,9 @@ function toggleFormulario(mostrar) {
     ? "block"
     : "none";
   document.getElementById("errorForm").textContent = "";
+  if (mostrar) {
+    document.getElementById('formulario').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
   if (!mostrar) {
     document.getElementById("alumnoForm").reset();
     document.getElementById("alumnoId").value = "";
@@ -81,6 +84,7 @@ function editarAlumno(id, nombre, apellido, dieta) {
   document.getElementById("dieta").value = dieta;
   document.getElementById("formTitulo").textContent = "Modificar alumno";
   toggleFormulario(true);
+  document.getElementById('formulario').scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 async function eliminarAlumno(id) {

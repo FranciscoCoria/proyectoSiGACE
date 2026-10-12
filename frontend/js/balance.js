@@ -168,17 +168,10 @@ function mostrarModalBalance(balance) {
     </div>
 
     <!-- ACCIONES -->
-    <div class="modal-acciones" style="margin-top:16px;">
+    <div class="modal-acciones">
       <div class="modal-botones">
-        <button class="btn-eliminar" id="btnEliminar" onclick="confirmarEliminar(` + balance.id + `)">Eliminar</button>
+        <button class="btn-eliminar" onclick="eliminarBalance(` + balance.id + `)">Eliminar</button>
         <button class="btn-cerrar" onclick="cerrarModal()">Cerrar</button>
-      </div>
-      <div id="confirmEliminar" class="confirmar-eliminacion">
-        <p>¿Estás seguro de que querés eliminar este balance?</p>
-        <div class="confirmar-botones">
-          <button class="btn-eliminar" onclick="eliminarBalance(` + balance.id + `)">Sí, eliminar</button>
-          <button class="btn-cancelar" onclick="cancelarEliminar()">Cancelar</button>
-        </div>
       </div>
     </div>
   `;
@@ -200,15 +193,14 @@ function cerrarModal() {
 }
 
 async function eliminarBalance(id) {
-  const response = await fetch(`${API}/balances/${id}`, {
-    method: 'DELETE',
-    headers: getHeaders()
+  cerrarModal();
+  mostrarConfirm('¿Estás seguro de que querés eliminar este balance?', async () => {
+    const response = await fetch(`${API}/balances/${id}`, {
+      method: 'DELETE',
+      headers: getHeaders()
+    });
+    if (response.ok) cargarBalances();
   });
-
-  if (response.ok) {
-    cerrarModal();
-    cargarBalances();
-  }
 }
 
 function agregarLinea() {

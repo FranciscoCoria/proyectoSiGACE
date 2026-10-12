@@ -221,13 +221,13 @@ async function guardarObservacion() {
 }
 
 async function eliminarPlan() {
-  const response = await fetch(`${API}/planes/${planActual.id}`, {
-    method: 'DELETE',
-    headers: getHeaders()
+  mostrarConfirm('¿Estás seguro de que querés eliminar este plan?', async () => {
+    const response = await fetch(`${API}/planes/${planActual.id}`, {
+      method: 'DELETE',
+      headers: getHeaders()
+    });
+    if (response.ok) volverLista();
   });
-  if (response.ok) {
-    volverLista();
-  }
 }
 
 function volverLista() {
