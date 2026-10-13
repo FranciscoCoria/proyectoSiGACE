@@ -42,6 +42,13 @@ async function verPlan(id) {
 }
 
 function mostrarPlan(plan) {
+  const errorDiv = document.getElementById('errorPlan');
+  if (errorDiv) {
+    errorDiv.textContent = '';
+    errorDiv.className = '';
+    errorDiv.style.display = 'none';
+  }
+
   document.getElementById('seccionLista').style.display = 'none';
   document.getElementById('seccionPlan').style.display = 'block';
 
@@ -126,7 +133,17 @@ function mostrarPlan(plan) {
     fila.appendChild(celdaObs);
     grilla.appendChild(fila);
   });
-
+  
+  document.querySelectorAll('#grillaPlan textarea').forEach(ta => {
+    ta.addEventListener('input', () => {
+      const errorDiv = document.getElementById('errorPlan');
+      if (errorDiv) {
+        errorDiv.textContent = '';
+        errorDiv.className = '';
+        errorDiv.style.display = 'none';
+      }
+    });
+  });
 }
 
 function recolectarDatos() {
@@ -189,10 +206,17 @@ async function enviarPlan() {
 
   const data = await response.json();
   if (!response.ok) {
-    document.getElementById('errorPlan').textContent = data.error;
+    const errorDiv = document.getElementById('errorPlan');
+    errorDiv.textContent = data.error;
+    errorDiv.className = 'mensaje-advertencia';
+    errorDiv.style.display = 'block';
     return;
   }
-  document.getElementById('errorPlan').textContent = '';
+
+  const errorDiv = document.getElementById('errorPlan');
+  errorDiv.textContent = '';
+  errorDiv.className = '';
+  errorDiv.style.display = 'none';
   verPlan(planActual.id);
 }
 
@@ -934,5 +958,5 @@ y += 6;
   // GUARDAR
   // ============================================================
 
-  doc.save(`plan-mensual-${mes}-${anio}.pdf`);
+  doc.save(`Plan-Mensual-${mes}-${anio}.pdf`);
 }

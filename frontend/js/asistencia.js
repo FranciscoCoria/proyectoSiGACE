@@ -34,7 +34,11 @@ async function cargarAsistencia(fecha) {
   const esFechaFutura = new Date(fecha) > new Date(getFechaHoy());
   
   const mensajeEl = document.getElementById('mensajeAsistencia');
-  if (mensajeEl) mensajeEl.textContent = '';
+  if (mensajeEl) {
+    mensajeEl.textContent = '';
+    mensajeEl.className = '';
+    mensajeEl.style.display = 'none';
+  }
 
   if (data.existe) {
     const esModoLectura = fecha !== getFechaHoy();
@@ -95,11 +99,15 @@ async function cargarAsistencia(fecha) {
   }
 
   document.querySelectorAll('#tablaAsistencia input[type="checkbox"]').forEach(cb => {
-    cb.addEventListener('change', () => {
-      const msg = document.getElementById('mensajeAsistencia');
-      if (msg) msg.textContent = '';
-    });
+  cb.addEventListener('change', () => {
+    const msg = document.getElementById('mensajeAsistencia');
+    if (msg) {
+      msg.textContent = '';
+      msg.className = '';
+      msg.style.display = 'none';
+    }
   });
+});
 }
 
 async function guardarAsistencia() {
@@ -125,8 +133,10 @@ async function guardarAsistencia() {
 }
 
   await cargarAsistencia(fecha);
-  document.getElementById('mensajeAsistencia').style.color = '#155724';
-  document.getElementById('mensajeAsistencia').textContent = 'Asistencia guardada correctamente.';
+  const msgEl = document.getElementById('mensajeAsistencia');
+  msgEl.style.display = 'block';
+  msgEl.className = 'mensaje-exito';
+  msgEl.textContent = 'Asistencia guardada correctamente.';
 }
 
 document.addEventListener('DOMContentLoaded', () => {

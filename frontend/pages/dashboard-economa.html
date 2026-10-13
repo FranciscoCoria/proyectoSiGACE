@@ -6,6 +6,7 @@
   <title>SiGACE - Panel Ecónoma</title>
   <link rel="stylesheet" href="../css/styles.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link rel="icon" href="../img/favicon.ico" type="image/png">
 </head>
 <body>
 
@@ -155,7 +156,7 @@
   <div id="seccionLista">
     <div class="section-header">
       <h2>Plan mensual</h2>
-      <button class="btn-primary btn-nuevo" onclick="mostrarFormNuevoPlan()">+ Nuevo plan</button>
+      <button class="btn-primary" onclick="mostrarFormNuevoPlan()">+ Nuevo plan</button>
     </div>
 
     <!-- FORMULARIO NUEVO PLAN -->
@@ -204,14 +205,14 @@
   <!-- VISTA DE UN PLAN -->
   <div id="seccionPlan" style="display:none;">
         <div class="section-header plan-header">
-      <button class="btn-nuevo" onclick="volverLista()">← Volver</button>
+      <button class="btn-secundario btn-accion" onclick="volverLista()">← Volver</button>
 
       <div class="plan-titulo">
         <h2 id="tituloPlan"></h2>
         <span id="estadoPlan"></span>
       </div>
 
-      <button id="btnExportar" class="btn-primary btn-nuevo" onclick="exportarPlanPDF()">
+      <button id="btnExportar" class="btn-secundario" onclick="exportarPlanPDF()">
         Exportar PDF
       </button>
     </div>
@@ -225,11 +226,11 @@
     <div id="errorPlan" class="error-msg"></div>
 
     <div class="plan-acciones">
-      <button id="btnGuardarCambios" class="btn-primary btn-nuevo" onclick="guardarCambios()">Guardar cambios</button>
-      <button id="btnEnviar" class="btn-primary btn-nuevo" onclick="enviarPlan()">Enviar a directora</button>
-      <button id="btnEliminarPlan" class="btn-eliminar" onclick="eliminarPlan()">Eliminar</button>
-      <button id="btnAprobar" class="btn-primary btn-nuevo" onclick="aprobarPlan()" style="display:none;">Aprobar</button>
-      <button id="btnObservacion" class="btn-nuevo" onclick="mostrarFormObservacion()" style="display:none;">Registrar observación</button>
+      <button id="btnGuardarCambios" class="btn-primary btn-accion" onclick="guardarCambios()">Guardar cambios</button>
+      <button id="btnEnviar" class="btn-primary btn-accion" onclick="enviarPlan()">Enviar a directora</button>
+      <button id="btnEliminarPlan" class="btn-eliminar btn-accion" onclick="eliminarPlan()">Eliminar</button>
+      <button id="btnAprobar" class="btn-primary btn-accion" onclick="aprobarPlan()" style="display:none;">Aprobar</button>
+      <button id="btnObservacion" class="btn-observacion btn-accion" onclick="mostrarFormObservacion()" style="display:none;">Registrar observación</button>
 
     </div>
 
