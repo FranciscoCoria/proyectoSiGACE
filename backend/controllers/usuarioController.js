@@ -81,18 +81,24 @@ const modificarUsuario = async (req, res) => {
 const eliminarUsuario = async (req, res) => {
   const { id } = req.params;
 
-
   if (parseInt(id) === req.usuario.id) {
     return res.status(400).json({ error: 'No podés eliminar tu propio usuario.' });
   }
-  
+
   const existe = await prisma.usuario.findUnique({ where: { id: parseInt(id) } });
   if (!existe) {
     return res.status(404).json({ error: 'Usuario no encontrado.' });
   }
 
-  await prisma.usuario.delete({ where: { id: parseInt(id) } });
-  res.json({ mensaje: 'Usuario eliminado correctamente.' });
+  try {
+    await prisma.usuario.delete({ where: { id: parseInt(id) } });
+    res.json({ mensaje: 'Usuario eliminado correctamente.' });
+      } catch (error) {
+    if (error.message && error.message.includes('foreign key constraint')) {
+      return res.status(400).json({ error: 'No se puede eliminar este usuario porque tiene registros asociados en el sistema. Podés modificar sus datos o cambiar su contraseña para revocar el acceso.' });
+    }
+    return res.status(500).json({ error: 'Error al eliminar el usuario.' });
+  }
 };
 //recibe el id por la URL, verifica que exista y lo elimina.
 

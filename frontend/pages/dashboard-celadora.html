@@ -47,11 +47,12 @@
         </tbody>
       </table>
 
-      <div id="mensajeAsistencia" class="error-msg"></div>
-      <div style="margin-top: 16px;">
+      <div id="mensajeAsistencia"></div>
+      <div style="margin-top: 16px; display:flex; align-items:center; gap:16px;">
         <button id="btnGuardar" class="btn-primary" onclick="guardarAsistencia()" style="width: auto; padding: 10px 24px;">
           Guardar asistencia
         </button>
+        <span id="contadorPresentes" class="contador-asistencia" style="display:inline-block; margin:0; padding:8px 14px;"></span>
       </div>
     </div>
 

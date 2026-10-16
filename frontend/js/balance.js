@@ -41,7 +41,7 @@ async function cargarBalances() {
   }
 
     balances.forEach(b => {
-        const fecha = new Date(b.fecha).toLocaleDateString('es-AR');
+        const fecha = new Date(b.fecha).toLocaleDateString('es-AR', { timeZone: 'UTC' });
         const col = columnas[b.tipo];
         if (col) {
         col.innerHTML += `
@@ -355,4 +355,12 @@ function toggleFormBalance(mostrar) {
 
 document.addEventListener('DOMContentLoaded', () => {
   cargarBalances();
+
+  document.getElementById('modal').addEventListener('click', (e) => {
+    if (e.target.id === 'modal') cerrarModal();
+  });
+
+  document.getElementById('modalConfirm').addEventListener('click', (e) => {
+    if (e.target.id === 'modalConfirm') cerrarModalConfirm();
+  });
 });

@@ -13,7 +13,10 @@ function getHeaders() {
 
 function getFechaHoy() {
   const hoy = new Date();
-  return hoy.toISOString().split('T')[0];
+  const anio = hoy.getFullYear();
+  const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+  const dia = String(hoy.getDate()).padStart(2, '0');
+  return `${anio}-${mes}-${dia}`;
 }
 
 async function cargarAsistencia(fecha) {
@@ -108,6 +111,12 @@ async function cargarAsistencia(fecha) {
     }
   });
 });
+
+  document.querySelectorAll('#tablaAsistencia input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', actualizarContador);
+  });
+  actualizarContador();
+
 }
 
 async function guardarAsistencia() {
@@ -150,3 +159,12 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarAsistencia(fechaInput.value);
   });
 });
+
+
+function actualizarContador() {
+  const checkboxes = document.querySelectorAll('#tablaAsistencia input[type="checkbox"]');
+  const presentes = Array.from(checkboxes).filter(cb => cb.checked).length;
+  const total = checkboxes.length;
+  const el = document.getElementById('contadorPresentes');
+  if (el) el.textContent = `Presentes: ${presentes} / ${total}`;
+}
