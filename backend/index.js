@@ -11,7 +11,10 @@ const balanceRoutes = require('./routes/balanceRoutes');
 const planRoutes = require('./routes/planRoutes');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+
+const path = require('path');
+app.use(express.static(path.join(__dirname, '..', 'frontend')));
 
 app.use(cors());
 app.use(express.json());
@@ -25,7 +28,10 @@ app.use('/api/asistencia', asistenciaRoutes);
 app.use('/api/balances', balanceRoutes);
 app.use('/api/planes', planRoutes);
 
-                                  
+app.get('/{0,}', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
+});
+                       
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });

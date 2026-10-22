@@ -8,7 +8,8 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => { /
   errorMsg.textContent = '';
 
   try {
-    const response = await fetch('http://localhost:3000/api/auth/login', { //es la función de JavaScript para hacer peticiones HTTP al backend. Es el equivalente de lo que hacías con Thunder Client pero desde el código.
+    //const response = await fetch('http://localhost:3000/api/auth/login', { //es la función de JavaScript para hacer peticiones HTTP al backend. Es el equivalente de lo que hacías con Thunder Client pero desde el código.
+      const response = await fetch(window.location.origin + '/api/auth/login', {   //ahora uso esta para el deploy
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ usuario, password })

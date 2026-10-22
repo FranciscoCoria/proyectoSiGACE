@@ -1,4 +1,6 @@
-const API = 'http://localhost:3000/api';  //guardo la constante para no escribir mil veces el url
+//const API = 'http://localhost:3000/api';  //guardo la constante para no escribir mil veces el url (ya no lo uso)
+const API = window.location.origin + '/api'; //lo necesito para hacer el deploy
+
 
 function getToken() {
   return localStorage.getItem('token');
