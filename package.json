@@ -2,7 +2,7 @@
   "name": "proyecto-comedor-escolar",
   "version": "1.0.0",
   "scripts": {
-    "build": "cd backend && npm install && npx prisma generate",
+    "build": "cd backend && npm install && npx prisma migrate deploy && npx prisma generate",
     "start": "node backend/index.js"
   }
 }
