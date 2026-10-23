@@ -1,5 +1,8 @@
 {
-  "devDependencies": {
-    "prisma": "^8.0.0-rc.15"
+  "name": "proyecto-comedor-escolar",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "cd backend && npm install && npx prisma generate",
+    "start": "node backend/index.js"
   }
 }

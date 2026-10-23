@@ -14,10 +14,10 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const path = require('path');
-app.use(express.static(path.join(__dirname, '..', 'frontend')));
+app.use(express.static(path.join(__dirname, '..', 'frontend'))); // Sirve los archivos HTML/CSS/JS del frontend
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json());  // Permite recibir datos en formato JSON
 
 app.use('/api/auth', authRoutes); // conecta las rutas de autenticación. 
                                   // Cuando llegue cualquier petición a /api/auth/... se va a manejar con el archivo authRoutes.js. 
