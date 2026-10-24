@@ -79,9 +79,9 @@ function mostrarModalBalance(balance) {
   let lineasHTML = balance.lineas.map(l => `
     <tr>
       <td>${l.nombreIngrediente}</td>
-      <td style="text-align:center">${parseFloat(l.cantidadUsada).toFixed(3)}</td>
-      <td style="text-align:center">$${parseFloat(l.precioUnitario).toLocaleString('es-AR')}</td>
-      <td style="text-align:center">$${parseFloat(l.subtotal).toLocaleString('es-AR')}</td>
+      <td style="text-align:center">${parseFloat(l.cantidadUsada).toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+      <td style="text-align:center">$${parseFloat(l.precioUnitario).toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
+      <td style="text-align:center">$${parseFloat(l.subtotal).toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
       <td>${l.otrasAclaraciones || ''}</td>
     </tr>
   `).join('');
@@ -129,11 +129,11 @@ function mostrarModalBalance(balance) {
         <tfoot>
           <tr style="background:#f7eeee; font-weight:bold;">
             <td colspan="3" style="padding:6px 8px; text-align:right;">Total general:</td>
-            <td style="padding:6px 8px; text-align:center;">$${parseFloat(balance.total).toLocaleString('es-AR')}</td>
+            <td style="padding:6px 8px; text-align:center;">$${parseFloat(balance.total).toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
           </tr>
           <tr style="background:#f7eeee; font-weight:bold;">
             <td colspan="3" style="padding:6px 8px; text-align:right;">Costo por ración:</td>
-            <td style="padding:6px 8px; text-align:center;">$${parseFloat(balance.costoPorRacion).toLocaleString('es-AR')}</td>
+            <td style="padding:6px 8px; text-align:center;">$${parseFloat(balance.costoPorRacion).toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
           </tr>
         </tfoot>
       </table>
@@ -298,8 +298,8 @@ if (totalEl) totalEl.textContent = cantidadComensales;
 
   const costoPorRacion = cantidadComensales > 0 ? total / cantidadComensales : 0;
 
-  document.getElementById('totalGeneral').textContent = '$' + total.toLocaleString('es-AR', { minimumFractionDigits: 2 });
-  document.getElementById('costoPorRacion').textContent = '$' + costoPorRacion.toLocaleString('es-AR', { minimumFractionDigits: 2 });
+  document.getElementById('totalGeneral').textContent = '$' + total.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+document.getElementById('costoPorRacion').textContent = '$' + costoPorRacion.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
 async function guardarBalance() {
