@@ -328,6 +328,7 @@ select:focus {
   box-shadow: 0 0 0 2px rgba(123, 41, 56, 0.12);
 }
 
+/*LOGO ESCUELA*/
 .logo-escuela {
   display: block;
   margin: 0 auto 12px;
@@ -378,10 +379,9 @@ select:focus {
 }
 
 /* FECHA SELECTOR */
-/* Ajuste para el selector de fecha en la cabecera */
 
 .fecha-selector label {
-  color: #fff8f6; /* Texto blanco para que resalte sobre el fondo bordó */
+  color: #fff8f6; 
   font-weight: bold;
   font-size: 0.9rem;
 }

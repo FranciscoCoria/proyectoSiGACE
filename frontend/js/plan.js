@@ -866,58 +866,8 @@ y += 6;
     y += rowHeight;
   });
 
-  // ============================================================
-  // ESTADO
-  // ============================================================
-
-  y += 5;
-
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(8);
-  doc.setTextColor(...bordó);
-
-  doc.text(
-    'Estado:',
-    margin,
-    y
-  );
-
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(...texto);
-
-  doc.text(
-    planActual.estado.replace(/_/g, ' '),
-    margin + 14,
-    y
-  );
-
-  // ============================================================
-  // OBSERVACIÓN DIRECTORA
-  // ============================================================
-
-  if (planActual.obsDirectora) {
-    y += 6;
-
-    const obsTexto =
-      `Observación de la directora: ${planActual.obsDirectora}`;
-
-    const obsLines = doc.splitTextToSize(
-      obsTexto,
-      pageWidth - margin * 2
-    );
-
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(7.5);
-    doc.setTextColor(...gris);
-
-    doc.text(
-      obsLines,
-      margin,
-      y
-    );
-  }
-
-  // ============================================================
+  
+    // ============================================================
   // PIE DE PÁGINA
   // ============================================================
 
@@ -944,13 +894,6 @@ y += 6;
       'SiGACE — Sistema de Gestión Administrativa de Comedores Escolares',
       margin,
       pageHeight - 4
-    );
-
-    doc.text(
-      `Página ${pagina} de ${totalPaginas}`,
-      pageWidth - margin,
-      pageHeight - 4,
-      { align: 'right' }
     );
   }
 
