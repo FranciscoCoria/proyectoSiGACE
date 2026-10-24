@@ -1,1 +1,1 @@
--- This is an empty migration.
+ALTER TABLE "LineaBalance" ADD COLUMN "otrasAclaraciones" TEXT;
