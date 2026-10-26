@@ -12,6 +12,9 @@ async function cargarAlumnos() {
   const tbody = document.getElementById("tablaAlumnos");
   tbody.innerHTML = "";
 
+  const msgEl = document.getElementById('mensajeAlumnos');
+  if (msgEl) { msgEl.style.display = 'none'; msgEl.className = ''; }
+
   if (alumnos.length === 0) {
     tbody.innerHTML =
       '<tr><td colspan="4">No hay alumnos registrados.</td></tr>';
@@ -73,8 +76,15 @@ async function guardarAlumno(e) {
     return;
   }
 
+  const esModificacion = !!document.getElementById('alumnoId').value;
   toggleFormulario(false);
-  cargarAlumnos();
+  await cargarAlumnos();
+  const msgEl = document.getElementById('mensajeAlumnos');
+  if (msgEl) {
+    msgEl.textContent = esModificacion ? 'Alumno modificado correctamente.' : 'Alumno creado correctamente.';
+    msgEl.className = 'mensaje-exito';
+    msgEl.style.display = 'block';
+  }
 }
 
 function editarAlumno(id, nombre, apellido, dieta) {

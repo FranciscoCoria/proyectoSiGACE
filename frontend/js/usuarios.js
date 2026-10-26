@@ -88,7 +88,11 @@ async function guardarUsuario(e) {
   }
 
   toggleFormulario(false);
-  cargarUsuarios();
+  await cargarUsuarios();
+  const errorDiv = document.getElementById('errorUsuarios');
+  errorDiv.textContent = id ? 'Usuario modificado correctamente.' : 'Usuario creado correctamente.';
+  errorDiv.className = 'mensaje-exito';
+  errorDiv.style.display = 'block';
 }
 
 // Cargar datos en formulario para editar

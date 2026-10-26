@@ -86,6 +86,12 @@ async function cargarAsistencia(fecha) {
       return;
     }
 
+    if (fecha !== getFechaHoy()) {
+      tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; color:#74696a;">No se registró asistencia para esta fecha.</td></tr>';
+      btnGuardar.style.display = 'none';
+      return;
+    }
+    
     data.alumnos.forEach(a => {
       tbody.innerHTML += `
         <tr>

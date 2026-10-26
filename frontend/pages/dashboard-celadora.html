@@ -34,7 +34,7 @@
             <button onclick="cargarAsistencia(document.getElementById('fecha').value)" class="btn-secundario">↺ Actualizar</button>
           </div>
       </div>
-      
+
       <table class="tabla">
         <thead>
           <tr>
@@ -64,6 +64,8 @@
           + Nuevo alumno
         </button>
       </div>
+
+      <div id="mensajeAlumnos"></div>
 
       <div id="formulario" style="display:none;">
         <div class="card">
@@ -115,9 +117,11 @@
     document.getElementById('nombreUsuario').textContent = usuario.nombre + ' ' + usuario.apellido;
 
     function cerrarSesion() {
-      localStorage.removeItem('token');
-      localStorage.removeItem('usuario');
-      window.location.href = '../index.html';
+      mostrarConfirm('¿Estás seguro de que querés cerrar sesión?', () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('usuario');
+        window.location.href = '../index.html';
+      }, 'Sí, cerrar sesión');
     }
 
     function mostrarTab(tab) {
@@ -127,6 +131,8 @@
       event.target.classList.add('active');
 
       if (tab === 'alumnos') cargarAlumnos();
+      const msgAlumnos = document.getElementById('mensajeAlumnos');
+      if (msgAlumnos) { msgAlumnos.style.display = 'none'; msgAlumnos.className = ''; } 
     }
   </script>
 

@@ -282,10 +282,13 @@
     document.getElementById('nombreUsuario').textContent = usuario.nombre + ' ' + usuario.apellido;
 
     function cerrarSesion() {
-      localStorage.removeItem('token');
-      localStorage.removeItem('usuario');
-      window.location.href = '../index.html';
+      mostrarConfirm('¿Estás seguro de que querés cerrar sesión?', () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('usuario');
+        window.location.href = '../index.html';
+      }, 'Sí, cerrar sesión');
     }
+
 
     function mostrarTab(tab, event) {
       document.getElementById('tab-economato').style.display = tab === 'economato' ? 'block' : 'none';
