@@ -246,6 +246,7 @@ function agregarLinea() {
   document.getElementById('pesoPorRacion').value = '';
   document.getElementById('precioUnitario').value = '';
   document.getElementById('otrasAclaraciones').value = '';
+  document.getElementById('nombreIngrediente').focus();
   actualizarTotales();
 }
 
