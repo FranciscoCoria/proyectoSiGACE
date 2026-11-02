@@ -9,8 +9,8 @@ async function main() {
   const directora = await prisma.usuario.create({
     data: {
       nombre: 'Admin',
-      apellido: 'Sistema',
-      usuario: 'directora',
+      apellido: 'Directora',
+      usuario: 'admin',
       password: passwordHasheada,
       rol: 'DIRECTORA'
     }
